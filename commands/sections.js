@@ -57,7 +57,7 @@ module.exports = {
           });
           return {
             custom: true,
-            content: `Successfully Updated! Use /sections show to view everyone/anyone's progress`,
+            content: `Successfully Updated! Use /sections to show your progress or use /sections showall to view everyone's.`,
             allowedMentions: {
               users: [],
             },
@@ -73,7 +73,7 @@ module.exports = {
           });
           return {
             custom: true,
-            content: `Successfully Updated! Use /sections show your progress or use /sections showall to view everyones`,
+            content: `Successfully Updated! Use /sections to show your progress or use /sections showall to view everyone's.`,
           };
         } catch (error) {
           console.log(error);
