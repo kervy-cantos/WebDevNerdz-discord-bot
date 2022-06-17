@@ -13,7 +13,7 @@ module.exports = {
     {
       type: "SUB_COMMAND",
       name: "save",
-      description: "Adds a warning to the user",
+      description: "Save a user's progress(Only accepts numbers)",
       options: [
         {
           name: "section_num",
