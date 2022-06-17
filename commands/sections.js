@@ -76,32 +76,39 @@ module.exports = {
     if (subCommand === "show") {
       if (!user?.id) {
         const progress = await users.find({ discordId: member });
-        const { section } = progress[0];
-        console.log(section);
-        try {
-          const embed = new MessageEmbed({
-            description: `Your Current Section: ${section}`,
-          });
-          return embed;
-        } catch (error) {
+        if (progress.length === 0) {
           return {
             custom: true,
-            content: `Sorry Something went wrong`,
+            content: `You haven't saved your progress yet. Please use /sections save.`,
           };
+        } else {
+          const { section } = progress[0];
+          try {
+            const embed = new MessageEmbed({
+              description: `Your Current Section: ${section}`,
+            }).setColor(0xba55d3);
+            return embed;
+          } catch (error) {
+            return {
+              custom: true,
+              content: `Sorry Something went wrong`,
+            };
+          }
         }
-      } else {
       }
     }
 
     if (subCommand === "showall") {
       let progress = await users.find();
-      let description = `Everyone's Saved Progress\n\n`;
+      let description = `Everyone's Current Progress\n\n`;
       for (const prog of progress) {
         description += `**ID:** ${prog.discordId}\n`;
         description += `**Name:** <@${prog.discordId}>\n`;
         description += `**Section:** ${prog.section}\n\n`;
       }
-      const embed = new MessageEmbed().setDescription(description);
+      const embed = new MessageEmbed()
+        .setDescription(description)
+        .setColor(0xba55d3);
 
       return embed;
     }
