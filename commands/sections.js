@@ -27,13 +27,6 @@ module.exports = {
       type: "SUB_COMMAND",
       name: "show",
       description: "Shows your section progress in the course",
-      options: [
-        {
-          name: "user",
-          type: "USER",
-          description: "Shows another user's progress",
-        },
-      ],
     },
     {
       type: "SUB_COMMAND",
