@@ -24,6 +24,15 @@ client.on("ready", () => {
     dbOptions,
     mongoUri: process.env.DATABASE,
     botOwners: ["534755194722975765"],
+    disabledDefaultCommands: [
+      "help",
+      "command",
+      "language",
+      "prefix",
+      "requiredrole",
+      "slash",
+      "channelonly",
+    ],
   });
 });
 
