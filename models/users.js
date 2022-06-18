@@ -10,7 +10,6 @@ const userSchema = new Schema({
   },
   lastUpdate: {
     type: Date,
-    default: new Date(),
   },
 });
 
