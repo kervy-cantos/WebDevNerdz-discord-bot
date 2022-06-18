@@ -66,6 +66,7 @@ module.exports = {
           await users.findOneAndUpdate({
             discordId: member,
             section: sectionNum,
+            discordName: memberName,
           });
           return {
             custom: true,
