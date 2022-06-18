@@ -91,7 +91,7 @@ module.exports = {
               description: `Your Current Section: ${section}`,
             })
               .setColor(0xba55d3)
-              .setImage(avatar.displayAvatarURL());
+              .setThumbnail(avatar.displayAvatarURL());
             return embed;
           } catch (error) {
             return {
