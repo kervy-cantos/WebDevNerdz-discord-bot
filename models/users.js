@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   discordId: String,
   section: Number,
-  dicordName: {
+  discordName: {
     unique: false,
     type: String,
   },
