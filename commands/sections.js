@@ -39,7 +39,7 @@ module.exports = {
     const user = interaction.options.getUser("user");
     const sectionNum = interaction.options.getNumber("section_num");
     const member = interaction.member.id;
-    const memberName = interaction.member.user;
+    const memberName = interaction.user.username;
     const avatar = interaction.user;
 
     if (subCommand === "save") {
@@ -50,6 +50,7 @@ module.exports = {
             discordId: member,
             section: sectionNum,
             discordName: memberName,
+            lastUpdate: Date.now(),
           });
           return {
             custom: true,
@@ -67,6 +68,7 @@ module.exports = {
             discordId: member,
             section: sectionNum,
             discordName: memberName,
+            lastUpdate: Date.now(),
           });
           return {
             custom: true,
@@ -86,13 +88,17 @@ module.exports = {
             content: `You haven't saved your progress yet. Please use /sections save.`,
           };
         } else {
-          const { section } = progress[0];
+          const { section, lastUpdate } = progress[0];
+          let timeString = lastUpdate.toTimeString().slice(0, 18);
           try {
-            const embed = new MessageEmbed({
-              description: `Your Current Section: ${section}`,
-            })
+            const embed = new MessageEmbed()
+              .setTitle(`Your Current Section: **${section}**`)
               .setColor(0xba55d3)
-              .setThumbnail(avatar.displayAvatarURL());
+              .setThumbnail(avatar.displayAvatarURL())
+
+              .setFooter({
+                text: "***Last Updated***: " + timeString,
+              });
             return embed;
           } catch (error) {
             return {
@@ -108,9 +114,11 @@ module.exports = {
       let progress = await users.find();
       let description = `Everyone's Current Progress\n\n`;
       for (const prog of progress) {
+        let timeString = prog.lastUpdate.toTimeString().slice(0, 18);
         description += `**ID:** ${prog.discordId}\n`;
-        description += `**Name:** <@${prog.discordName}>\n`;
-        description += `**Section:** ${prog.section}\n\n`;
+        description += `**Name:** **${prog.discordName}**\n`;
+        description += `**Section:** ${prog.section}\n`;
+        description += `**Last Update:** ${timeString}\n\n`;
       }
       const embed = new MessageEmbed()
         .setDescription(description)

@@ -8,6 +8,10 @@ const userSchema = new Schema({
     unique: false,
     type: String,
   },
+  lastUpdate: {
+    type: Date,
+    default: new Date(),
+  },
 });
 
 module.exports = mongoose.model("Users", userSchema);
