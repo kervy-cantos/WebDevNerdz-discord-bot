@@ -39,6 +39,8 @@ module.exports = {
     const user = interaction.options.getUser("user");
     const sectionNum = interaction.options.getNumber("section_num");
     const member = interaction.member.id;
+    const memberName = interaction.member.user;
+    const avatar = interaction.user;
 
     if (subCommand === "save") {
       const search = await users.find({ discordId: member });
@@ -47,6 +49,7 @@ module.exports = {
           await users.create({
             discordId: member,
             section: sectionNum,
+            discordName: memberName,
           });
           return {
             custom: true,
@@ -86,7 +89,9 @@ module.exports = {
           try {
             const embed = new MessageEmbed({
               description: `Your Current Section: ${section}`,
-            }).setColor(0xba55d3);
+            })
+              .setColor(0xba55d3)
+              .setImage(avatar.displayAvatarURL());
             return embed;
           } catch (error) {
             return {
@@ -103,7 +108,7 @@ module.exports = {
       let description = `Everyone's Current Progress\n\n`;
       for (const prog of progress) {
         description += `**ID:** ${prog.discordId}\n`;
-        description += `**Name:** <@${prog.discordId}>\n`;
+        description += `**Name:** <@${prog.discordName}>\n`;
         description += `**Section:** ${prog.section}\n\n`;
       }
       const embed = new MessageEmbed()
