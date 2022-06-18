@@ -115,7 +115,6 @@ module.exports = {
       let description = `Everyone's Current Progress\n\n`;
       for (const prog of progress) {
         let timeString = prog.lastUpdate.toTimeString().slice(0, 18);
-        description += `**ID:** ${prog.discordId}\n`;
         description += `**Name:** **${prog.discordName}**\n`;
         description += `**Section:** ${prog.section}\n`;
         description += `**Last Update:** ${timeString}\n\n`;
