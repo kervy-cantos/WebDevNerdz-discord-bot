@@ -35,7 +35,6 @@ module.exports = {
     },
   ],
   callback: async ({ interaction, channel, user }) => {
-    console.log(user.id);
     if (channel.id != "983764922229981214") {
       return {
         custom: true,
