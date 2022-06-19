@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const users = require("../models/users");
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, SystemChannelFlags } = require("discord.js");
 
 module.exports = {
   description: `Saves and Displays a user's current section in the course`,
@@ -34,61 +34,66 @@ module.exports = {
       description: "Shows everyone's progress",
     },
   ],
-  callback: async ({ interaction }) => {
-    const subCommand = interaction.options.getSubcommand();
-    const user = interaction.options.getUser("user");
-    const sectionNum = interaction.options.getNumber("section_num");
-    const member = interaction.member.id;
-    const memberName = interaction.user.username;
-    const avatar = interaction.user;
+  callback: async ({ interaction, channel, user }) => {
+    console.log(user.id);
+    if (channel.id != "983764922229981214") {
+      return {
+        custom: true,
+        content: "Please use this command on #sections",
+      };
+    } else {
+      const subCommand = interaction.options.getSubcommand();
+      const sectionNum = interaction.options.getNumber("section_num");
+      const userid = user.id;
+      const memberName = interaction.user.username;
+      const avatar = interaction.user;
 
-    if (subCommand === "save") {
-      const search = await users.find({ discordId: member });
-      if (search.length === 0) {
-        try {
-          await users.create({
-            discordId: member,
-            section: sectionNum,
-            discordName: memberName,
-            lastUpdate: Date.now(),
-          });
-          return {
-            custom: true,
-            content: `Successfully Updated! Use /sections to show your progress or use /sections showall to view everyone's.`,
-            allowedMentions: {
-              users: [],
-            },
-          };
-        } catch (error) {
-          console.log(error);
-        }
-      } else {
-        try {
-          await users.findOneAndUpdate({
-            discordId: member,
-            section: sectionNum,
-            discordName: memberName,
-            lastUpdate: Date.now(),
-          });
-          return {
-            custom: true,
-            content: `Successfully Updated! Use /sections to show your progress or use /sections showall to view everyone's.`,
-          };
-        } catch (error) {
-          console.log(error);
+      if (subCommand === "save") {
+        const search = await users.findOne({ discordId: userid });
+        if (search.length === 0) {
+          try {
+            await users.create({
+              discordId: userid,
+              section: sectionNum,
+              discordName: memberName,
+              lastUpdate: Date.now(),
+            });
+            return {
+              custom: true,
+              content: `Successfully Updated! Use /sections to show your progress or use /sections showall to view everyone's.`,
+              allowedMentions: {
+                users: [],
+              },
+            };
+          } catch (error) {
+            console.log(error);
+          }
+        } else {
+          try {
+            await users.findOneAndUpdate({
+              discordId: userid,
+              section: sectionNum,
+              discordName: memberName,
+              lastUpdate: Date.now(),
+            });
+            return {
+              custom: true,
+              content: `Successfully Updated! Use /sections to show your progress or use /sections showall to view everyone's.`,
+            };
+          } catch (error) {
+            console.log(error);
+          }
         }
       }
-    }
-    if (subCommand === "show") {
-      if (!user?.id) {
-        const progress = await users.find({ discordId: member });
+      if (subCommand === "show") {
+        const progress = await users.findOne({ discordId: userid });
         if (progress.length === 0) {
           return {
             custom: true,
             content: `You haven't saved your progress yet. Please use /sections save.`,
           };
         } else {
-          const { section, lastUpdate } = progress[0];
+          const { section, lastUpdate } = progress;
           let timeString = lastUpdate.toTimeString().slice(0, 18);
           try {
             const embed = new MessageEmbed()
@@ -108,22 +113,22 @@ module.exports = {
           }
         }
       }
-    }
 
-    if (subCommand === "showall") {
-      let progress = await users.find();
-      let description = `Everyone's Current Progress\n\n`;
-      for (const prog of progress) {
-        let timeString = prog.lastUpdate.toTimeString().slice(0, 18);
-        description += `**Name:** **${prog.discordName}**\n`;
-        description += `**Section:** ${prog.section}\n`;
-        description += `**Last Update:** ${timeString}\n\n`;
+      if (subCommand === "showall") {
+        let progress = await users.find();
+        let description = `Everyone's Current Progress\n\n`;
+        for (const prog of progress) {
+          let timeString = prog.lastUpdate.toTimeString().slice(0, 18);
+          description += `**Name:** **${prog.discordName}**\n`;
+          description += `**Section:** ${prog.section}\n`;
+          description += `**Last Update:** ${timeString}\n\n`;
+        }
+        const embed = new MessageEmbed()
+          .setDescription(description)
+          .setColor(0xba55d3);
+
+        return embed;
       }
-      const embed = new MessageEmbed()
-        .setDescription(description)
-        .setColor(0xba55d3);
-
-      return embed;
     }
   },
 };

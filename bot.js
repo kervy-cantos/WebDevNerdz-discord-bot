@@ -23,7 +23,7 @@ client.on("ready", () => {
     testServers: ["780208322720432148", "982073575831920690"],
     dbOptions,
     mongoUri: process.env.DATABASE,
-    botOwners: ["534755194722975765"],
+    botOwners: ["534755194722975765", "323304496824582145"],
     disabledDefaultCommands: [
       "help",
       "command",
@@ -31,7 +31,7 @@ client.on("ready", () => {
       "prefix",
       "requiredrole",
       "slash",
-      "channelonly",
+      ,
     ],
   });
 });
