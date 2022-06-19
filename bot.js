@@ -20,7 +20,11 @@ client.on("ready", () => {
   };
   new WOKCommands(client, {
     commandsDir: path.join(__dirname, "commands"),
-    testServers: ["780208322720432148", "982073575831920690"],
+    testServers: [
+      "780208322720432148",
+      "982073575831920690",
+      "760412269380632607",
+    ],
     dbOptions,
     mongoUri: process.env.DATABASE,
     botOwners: ["534755194722975765", "323304496824582145"],

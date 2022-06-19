@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const users = require("../models/users");
-const { MessageEmbed, SystemChannelFlags } = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 
 module.exports = {
   description: `Saves and Displays a user's current section in the course`,
@@ -34,7 +34,7 @@ module.exports = {
       description: "Shows everyone's progress",
     },
   ],
-  callback: async ({ interaction, channel, user }) => {
+  callback: async ({ interaction, channel, user, member }) => {
     if (channel.id != "983764922229981214") {
       return {
         custom: true,
