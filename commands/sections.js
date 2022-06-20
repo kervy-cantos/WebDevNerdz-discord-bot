@@ -34,7 +34,7 @@ module.exports = {
       description: "Shows everyone's progress",
     },
   ],
-  callback: async ({ interaction, channel, user, member }) => {
+  callback: async ({ interaction, channel, user }) => {
     if (channel.id != "983764922229981214") {
       return {
         custom: true,
@@ -84,8 +84,7 @@ module.exports = {
             text: `***Last Updated***: ${currentTime}`,
           });
         return embed;
-      }
-      if (subCommand === "show") {
+      } else if (subCommand === "show") {
         const progress = await users.findOne({ discordId: userid });
         if (!progress) {
           return {
@@ -112,9 +111,7 @@ module.exports = {
             };
           }
         }
-      }
-
-      if (subCommand === "showall") {
+      } else if (subCommand === "showall") {
         let progress = await users.find();
         let description = `Everyone's Current Progress\n\n`;
         for (const prog of progress) {
