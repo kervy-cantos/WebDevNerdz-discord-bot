@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const users = require("../models/users");
 const { MessageEmbed } = require("discord.js");
+const { update } = require("../models/users");
 
 module.exports = {
   description: `Saves and Displays a user's current section in the course`,
@@ -51,7 +52,7 @@ module.exports = {
         const search = await users.findOne({ discordId: userid });
         if (!search) {
           try {
-            await users.create({
+            const newUser = await new users({
               discordId: userid,
               section: sectionNum,
               discordName: memberName,
@@ -68,18 +69,34 @@ module.exports = {
             lastUpdate: Date.now(),
           };
           try {
-            await users.findOneAndUpdate(filterId, update, {
+            let updateUser = await users.findOneAndUpdate(filterId, update, {
               new: true,
             });
           } catch (error) {
             console.log(error);
           }
         }
+
+        if (search.sectionGoal === null || updateUser.sectionGoal === null) {
+          let goal =
+            "You did not specify any goals yet. Type `/section goal<number>` to add one.";
+        } else {
+          let sectionGoal = search.sectionGoal || updateUser.sectionGoal;
+          if (sectionGoal === sectionNum) {
+            let goal = "Congratulations! You have reached your goal.";
+          } else {
+            let goal = `You are ${
+              sectionGoal - sectionNum
+            } sections away from your target goal!`;
+          }
+        }
         let currentTime = new Date();
         currentTime = currentTime.toTimeString().slice(0, 18);
         const embed = new MessageEmbed()
           .setTitle(`**Way to go!  ${memberName}**`)
-          .setDescription(`***You are currently at section ${sectionNum}***`)
+          .setDescription(
+            `***You are currently at section ${sectionNum}***\n\n ${goal}`
+          )
           .setColor(0xba55d3)
           .setThumbnail(avatar.displayAvatarURL())
 
