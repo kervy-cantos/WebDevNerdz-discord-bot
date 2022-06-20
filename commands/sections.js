@@ -61,12 +61,15 @@ module.exports = {
             console.log(error);
           }
         } else {
+          const filterId = { discordId: user.id };
+          const update = {
+            section: sectionNum,
+            discordName: memberName,
+            lastUpdate: Date.now(),
+          };
           try {
-            await users.findOneAndUpdate({
-              discordId: userid,
-              section: sectionNum,
-              discordName: memberName,
-              lastUpdate: Date.now(),
+            await users.findOneAndUpdate(filterId, update, {
+              new: true,
             });
           } catch (error) {
             console.log(error);
