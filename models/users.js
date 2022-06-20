@@ -11,7 +11,6 @@ const userSchema = new Schema({
   lastUpdate: {
     type: Date,
   },
-  sectionGoal: Number,
 });
 
 module.exports = mongoose.model("Users", userSchema);
