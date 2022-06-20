@@ -49,7 +49,7 @@ module.exports = {
 
       if (subCommand === "save") {
         const search = await users.findOne({ discordId: userid });
-        if (search.length === 0) {
+        if (!search) {
           try {
             await users.create({
               discordId: userid,
@@ -57,13 +57,6 @@ module.exports = {
               discordName: memberName,
               lastUpdate: Date.now(),
             });
-            return {
-              custom: true,
-              content: `Successfully Updated! Use /sections to show your progress or use /sections showall to view everyone's.`,
-              allowedMentions: {
-                users: [],
-              },
-            };
           } catch (error) {
             console.log(error);
           }
@@ -75,18 +68,26 @@ module.exports = {
               discordName: memberName,
               lastUpdate: Date.now(),
             });
-            return {
-              custom: true,
-              content: `Successfully Updated! Use /sections to show your progress or use /sections showall to view everyone's.`,
-            };
           } catch (error) {
             console.log(error);
           }
         }
+        let currentTime = new Date();
+        currentTime = currentTime.toTimeString().slice(0, 18);
+        const embed = new MessageEmbed()
+          .setTitle(`**Way to go!  ${memberName}**`)
+          .setDescription(`***You are currently at section ${sectionNum}***`)
+          .setColor(0xba55d3)
+          .setThumbnail(avatar.displayAvatarURL())
+
+          .setFooter({
+            text: `***Last Updated***: ${currentTime}`,
+          });
+        return embed;
       }
       if (subCommand === "show") {
         const progress = await users.findOne({ discordId: userid });
-        if (progress.length === 0) {
+        if (!progress) {
           return {
             custom: true,
             content: `You haven't saved your progress yet. Please use /sections save.`,
