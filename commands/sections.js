@@ -102,7 +102,6 @@ module.exports = {
               .setTitle(`Your Current Section: **${section}**`)
               .setColor(0xba55d3)
               .setThumbnail(avatar.displayAvatarURL())
-
               .setFooter({
                 text: "***Last Updated***: " + timeString,
               });
