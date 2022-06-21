@@ -36,7 +36,6 @@ module.exports = {
   ],
 
   error: ({ error, message }) => {
-    message.send("sorry something went wrong <@534755194722975765>");
     console.log(error);
   },
   callback: async ({ interaction, channel, user }) => {
