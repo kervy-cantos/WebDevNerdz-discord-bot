@@ -34,6 +34,11 @@ module.exports = {
       description: "Shows everyone's progress",
     },
   ],
+
+  error: ({ error, message }) => {
+    message.send("sorry something went wrong <@534755194722975765>");
+    console.log(error);
+  },
   callback: async ({ interaction, channel, user }) => {
     if (channel.id != "983764922229981214") {
       return {
