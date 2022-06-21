@@ -76,7 +76,7 @@ module.exports = {
           }
         }
         let currentTime = new Date();
-        currentTime = currentTime.toTimeString().slice(0, 18);
+        currentTime = currentTime.toString();
         const embed = new MessageEmbed()
           .setTitle(`**Way to go!  ${memberName}**`)
           .setDescription(`***You are currently at section ${sectionNum}***`)
@@ -96,7 +96,7 @@ module.exports = {
           };
         } else {
           const { section, lastUpdate } = progress;
-          let timeString = lastUpdate.toTimeString().slice(0, 18);
+          let timeString = lastUpdate.toString();
           try {
             const embed = new MessageEmbed()
               .setTitle(`Your Current Section: **${section}**`)
