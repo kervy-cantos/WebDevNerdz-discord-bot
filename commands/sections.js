@@ -119,7 +119,7 @@ module.exports = {
           }
         }
       } else if (subCommand === "showall") {
-        let progress = await users.find();
+        let progress = await users.find().sort({ section: "asc", test: -1 });
         let description = `Everyone's Current Progress\n\n`;
         for (const prog of progress) {
           let timeString = prog.lastUpdate.toTimeString().slice(0, 18);
