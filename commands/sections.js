@@ -39,18 +39,17 @@ module.exports = {
     console.log(error);
   },
   callback: async ({ interaction, channel, user }) => {
+    const subCommand = interaction.options.getSubcommand();
+    const sectionNum = interaction.options.getNumber("section_num");
+    const userid = user.id;
+    const memberName = interaction.user.username;
+    const avatar = interaction.user;
     if (channel.id != "983764922229981214") {
       return {
         custom: true,
         content: "Please use this command on #sections",
       };
     } else {
-      const subCommand = interaction.options.getSubcommand();
-      const sectionNum = interaction.options.getNumber("section_num");
-      const userid = user.id;
-      const memberName = interaction.user.username;
-      const avatar = interaction.user;
-
       if (subCommand === "save") {
         const search = await users.findOne({ discordId: userid });
         if (!search) {
