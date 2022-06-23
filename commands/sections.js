@@ -14,6 +14,7 @@ module.exports = {
       type: "SUB_COMMAND",
       name: "save",
       description: "Save a user's progress(Only accepts numbers)",
+      maxArgs: 1,
       options: [
         {
           name: "section_num",
@@ -27,11 +28,13 @@ module.exports = {
       type: "SUB_COMMAND",
       name: "show",
       description: "Shows your section progress in the course",
+      maxArgs: 0,
     },
     {
       type: "SUB_COMMAND",
       name: "showall",
       description: "Shows everyone's progress",
+      maxArgs: 0,
     },
   ],
 
@@ -118,7 +121,7 @@ module.exports = {
           }
         }
       } else if (subCommand === "showall") {
-        let progress = await users.find().sort({ section: "asc", test: -1 });
+        let progress = await users.find().sort({ section: "desc" });
         let description = `Everyone's Current Progress\n\n`;
         for (const prog of progress) {
           let timeString = prog.lastUpdate.toTimeString().slice(0, 18);
