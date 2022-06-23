@@ -47,21 +47,21 @@ module.exports = {
     const userid = user.id;
     const memberName = interaction.user.username;
     const avatar = interaction.user;
-    if (channel.id != "983764922229981214") {
-      return {
-        custom: true,
-        content: "Please use this command on #sections",
-      };
-    } else {
+    if (
+      channel.id === "983764922229981214" ||
+      channel.id === "988254263652253696"
+    ) {
       if (subCommand === "save") {
+        let goal = 0;
         const search = await users.findOne({ discordId: userid });
-        if (!search) {
+        if (!search || !search.length) {
           try {
             await users.create({
               discordId: userid,
               section: sectionNum,
               discordName: memberName,
               lastUpdate: Date.now(),
+              goal,
             });
           } catch (error) {
             console.log(error);
@@ -81,11 +81,34 @@ module.exports = {
             console.log(error);
           }
         }
+        const sectionUpdate = await users.findOne({ discordId: user.id });
+        goal = sectionUpdate.goal;
         let currentTime = new Date();
+
         currentTime = currentTime.toString();
+        let description = `***You are currently at section ${sectionNum}***\n\n`;
+
+        if (goal === 0) {
+          description += `*You haven't specified a goal yet. You might wanna use /goals to add one*`;
+        } else if (goal > sectionNum) {
+          let goalDistance = goal - sectionNum;
+          description += `*You are ${goalDistance} sections away from your goal. Keep it up!*`;
+        } else if (goal === sectionNum) {
+          description += `***Congratulations!!  You have reached your goal !!. Use /goals to add a new goal***`;
+
+          try {
+            await users.findOneAndUpdate({
+              discordId: user.id,
+              goal: 0,
+              new: true,
+            });
+          } catch (error) {
+            console.log(error);
+          }
+        }
         const embed = new MessageEmbed()
           .setTitle(`**Way to go!  ${memberName}**`)
-          .setDescription(`***You are currently at section ${sectionNum}***`)
+          .setDescription(description)
           .setColor(0xba55d3)
           .setThumbnail(avatar.displayAvatarURL())
 
@@ -112,7 +135,11 @@ module.exports = {
               .setFooter({
                 text: "***Last Updated***: " + timeString,
               });
-            return embed;
+            return {
+              custom: true,
+              embeds: [embed],
+              ephemeral: true,
+            };
           } catch (error) {
             return {
               custom: true,
@@ -135,6 +162,12 @@ module.exports = {
 
         return embed;
       }
+    } else {
+      return {
+        custom: true,
+        ephemeral: true,
+        content: "Please use this command on #sections",
+      };
     }
   },
 };

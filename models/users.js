@@ -11,6 +11,10 @@ const userSchema = new Schema({
   lastUpdate: {
     type: Date,
   },
+  goal: {
+    type: Number,
+    default: 60,
+  },
 });
 
 module.exports = mongoose.model("Users", userSchema);
