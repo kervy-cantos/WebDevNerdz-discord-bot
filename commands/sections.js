@@ -47,22 +47,19 @@ module.exports = {
     const userid = user.id;
     const memberName = interaction.user.username;
     const avatar = interaction.user;
-    if (
-      channel.id === "983764922229981214" ||
-      channel.id === "988254263652253696"
-    ) {
+    if (channel.id === "983764922229981214") {
       if (subCommand === "save") {
-        let goal = 0;
         const search = await users.findOne({ discordId: userid });
-        if (!search || !search.length) {
+        if (!search || search.length === 0) {
           try {
             await users.create({
               discordId: userid,
               section: sectionNum,
               discordName: memberName,
               lastUpdate: Date.now(),
-              goal,
+              goal: 60,
             });
+            console.log("created");
           } catch (error) {
             console.log(error);
           }
@@ -77,6 +74,7 @@ module.exports = {
             await users.findOneAndUpdate(filterId, update, {
               new: true,
             });
+            console.log("updated");
           } catch (error) {
             console.log(error);
           }
