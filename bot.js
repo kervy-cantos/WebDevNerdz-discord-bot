@@ -29,7 +29,6 @@ client.on("ready", () => {
     mongoUri: process.env.DATABASE,
     botOwners: ["534755194722975765", "323304496824582145"],
     disabledDefaultCommands: [
-      "help",
       "command",
       "language",
       "prefix",
