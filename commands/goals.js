@@ -11,22 +11,44 @@ module.exports = {
   guildOnly: true,
   testOnly: true,
 
-  callback: async ({ text, user, channel }) => {
-    if (
-      channel.id === "983764922229981214" ||
-      channel.id === "988254263652253696"
-    ) {
+  callback: async ({ text, user, channel, interaction }) => {
+    if (channel.id === "988254819405930536") {
       try {
-        await users.findOneAndUpdate({ discordId: user.id, goal: text });
+        const yourGoal = await users.findOneAndUpdate({
+          discordId: user.id,
+          goal: text,
+          new: true,
+        });
+        const sectionUpdate = await users.findOne({ discordId: user.id });
+        section = sectionUpdate.section;
+
+        let description = `Your goal for now is section ${text}. Learn at your own pace!\n\n`;
+        if (text === 0) {
+          description += `*You haven't specified a goal yet. You might wanna use /goals to add one*`;
+        } else if (text > section) {
+          let goalDistance = text - section;
+          description += `*You are ${goalDistance} sections away from your goal. Keep it up!*`;
+        } else if (text <= section && text !== 0) {
+          description += `***Congratulations!!  You have reached your goal !!. Use /goals to add a new goal***`;
+
+          try {
+            await users.findOneAndUpdate({
+              discordId: user.id,
+              goal: 0,
+              new: true,
+            });
+          } catch (error) {
+            console.log(error);
+          }
+        }
         const embed = new MessageEmbed()
-          .setDescription(
-            `Your goal for now is section ${text}. Learn at your own pace!`
-          )
-          .setTitle(`Hi ${user.username}!`);
+          .setDescription(description)
+          .setTitle(`Hi ${user.username}!`)
+          .setThumbnail(interaction.user.displayAvatarURL())
+          .setColor(0xf7d716);
         return {
           custom: true,
           embeds: [embed],
-          ephemeral: true,
         };
       } catch (error) {
         console.log(error);
