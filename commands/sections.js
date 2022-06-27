@@ -113,9 +113,9 @@ module.exports = {
           description += `***Congratulations!!  You have reached your goal !!. Use /goals to add a new goal***`;
 
           try {
-            await users.findOneAndUpdate({
-              discordId: user.id,
-              goal: 0,
+            const newGoal = { goal: 0 };
+            const yourId = { discordId: user.id };
+            await users.findOneAndUpdate(yourId, newGoal, {
               new: true,
             });
           } catch (error) {
