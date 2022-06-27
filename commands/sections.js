@@ -93,7 +93,7 @@ module.exports = {
           newRole = "988253318734307328";
         }
         console.log(newRole);
-        const checkRole = member.roles.cache.has(newRole.id);
+        const checkRole = member.roles.cache.has(newRole);
         if (member.manageable && !checkRole) {
           member.roles.add(newRole);
           console.log("added");

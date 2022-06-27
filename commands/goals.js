@@ -27,7 +27,7 @@ module.exports = {
           description += `*You haven't specified a goal yet. You might wanna use /goals to add one*`;
         } else if (text > section) {
           let goalDistance = text - section;
-          description += `*You are ${goalDistance} sections away from your goal. Keep it up!*`;
+          description += `*You are ${goalDistance.toString()} sections away from your goal. Keep it up!*`;
         } else if (text <= section && text !== 0) {
           description += `***Congratulations!!  You have reached your goal !!. Use /goals to add a new goal***`;
 
