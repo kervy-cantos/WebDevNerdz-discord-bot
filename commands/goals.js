@@ -12,11 +12,11 @@ module.exports = {
   testOnly: true,
 
   callback: async ({ text, user, channel, interaction }) => {
+    const yourId = { discordId: user.id };
+    let update = { goal: text };
     if (channel.id === "988254819405930536") {
       try {
-        const yourGoal = await users.findOneAndUpdate({
-          discordId: user.id,
-          goal: text,
+        const yourGoal = await users.findOneAndUpdate(yourId, update, {
           new: true,
         });
         let section = yourGoal.section;
@@ -33,11 +33,8 @@ module.exports = {
           description += `***Congratulations!!  You have reached your goal !!. Use /goals to add a new goal***`;
 
           try {
-            await users.findOneAndUpdate({
-              discordId: member.id,
-              goal: 0,
-              new: true,
-            });
+            await users.findOneAndUpdate(yourId, { goal: 0 });
+            console.log("reset");
           } catch (error) {
             console.log(error);
           }
