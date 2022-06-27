@@ -7,6 +7,7 @@ module.exports = {
   slash: "both",
   guildOnly: true,
   testOnly: true,
+  permissions: ["ADMINISTRATOR"],
 
   options: [
     {
@@ -23,14 +24,14 @@ module.exports = {
 
   callback: async ({ interaction, guild }) => {
     const user = interaction.options.getUser("user");
-    const role = interaction.options.getRole("role");
+    const newRole = interaction.options.getRole("role");
     const member = await guild.members.fetch(user);
-    member.roles.add(role);
-    console.log(member);
-
-    return {
-      custom: true,
-      content: `<@${member}>, I added you the ${role} role`,
-    };
+    const hey = member.roles.cache.has(newRole.id);
+    if (!hey) {
+      member.roles.add(newRole);
+      interaction.reply("Role Added");
+    } else {
+      interaction.reply("Role Added.");
+    }
   },
 };
