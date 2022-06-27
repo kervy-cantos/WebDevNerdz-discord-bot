@@ -47,6 +47,7 @@ module.exports = {
     const userid = user.id;
     const memberName = interaction.user.username;
     const avatar = interaction.user;
+    const member = await guild.members.fetch(userid);
     if (channel.id === "983764922229981214") {
       if (subCommand === "save") {
         const search = await users.findOne({ discordId: userid });
@@ -80,9 +81,22 @@ module.exports = {
           }
         }
         const sectionUpdate = await users.findOne({ discordId: user.id });
+        let sectionRole = sectionUpdate.section;
+        let newRole;
         goal = sectionUpdate.goal;
         let currentTime = new Date();
+        if (sectionRole <= 13) {
+          newRole = "983079086589112372";
+        } else if (sectionRole > 13 && sectionRole <= 38) {
+          newRole = "983079178947686420";
+        } else {
+          newRole = "988253318734307328";
+        }
 
+        const checkRole = member.roles.cache.has(newRole.id);
+        if (!member.manageable && !checkRole) {
+          member.roles.add(newRole);
+        }
         currentTime = currentTime.toString();
         let description = `***You are currently at section ${sectionNum}***\n\n`;
 
@@ -104,6 +118,7 @@ module.exports = {
             console.log(error);
           }
         }
+
         const embed = new MessageEmbed()
           .setTitle(`**Way to go!  ${memberName}**`)
           .setDescription(description)
