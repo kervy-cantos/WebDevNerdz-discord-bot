@@ -21,13 +21,14 @@ module.exports = {
     },
   ],
 
-  callback: async ({ interaction, member }) => {
+  callback: async ({ interaction }) => {
     const user = interaction.options.getUser("user");
     const role = interaction.options.getRole("role");
-    user?.roles.add(role);
+    const member = user.id;
+    member.roles.add("role");
     return {
       custom: true,
-      content: `${user}, I added you the ${role} role`,
+      content: `<@${member}>, I added you the ${role} role`,
     };
   },
 };
