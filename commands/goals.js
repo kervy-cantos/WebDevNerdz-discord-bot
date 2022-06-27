@@ -11,15 +11,15 @@ module.exports = {
   guildOnly: true,
   testOnly: true,
 
-  callback: async ({ text, user, channel, interaction }) => {
+  callback: async ({ text, member, channel, interaction }) => {
     if (channel.id === "988254819405930536") {
       try {
         const yourGoal = await users.findOneAndUpdate({
-          discordId: user.id,
+          discordId: member.id,
           goal: text,
           new: true,
         });
-        const sectionUpdate = await users.findOne({ discordId: user.id });
+        const sectionUpdate = await users.findOne({ discordId: member.id });
         section = sectionUpdate.section;
         console.log(sectionUpdate);
         console.log(text);
@@ -34,7 +34,7 @@ module.exports = {
 
           try {
             await users.findOneAndUpdate({
-              discordId: user.id,
+              discordId: member.id,
               goal: 0,
               new: true,
             });
@@ -44,8 +44,8 @@ module.exports = {
         }
         const embed = new MessageEmbed()
           .setDescription(description)
-          .setTitle(`Hi ${user.username}!`)
-          .setThumbnail(interaction.user.displayAvatarURL())
+          .setTitle(`Hi ${member.username}!`)
+          .setThumbnail(interaction.member.displayAvatarURL())
           .setColor(0xf7d716);
         return {
           custom: true,
