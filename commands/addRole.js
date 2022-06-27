@@ -30,11 +30,15 @@ module.exports = {
     if (!member.manageable) {
       interaction.reply("This command does not work on the server owner");
     } else {
-      if (!checkRole) {
-        member.roles.add(newRole.id);
-        interaction.reply("Role Added");
-      } else {
-        interaction.reply("User already had this role");
+      try {
+        if (!checkRole) {
+          member.roles.add(newRole.id);
+          interaction.reply("Role Added");
+        } else {
+          interaction.reply("User already had this role");
+        }
+      } catch (error) {
+        console.log(error);
       }
     }
   },
