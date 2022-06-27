@@ -21,7 +21,8 @@ module.exports = {
         });
         const sectionUpdate = await users.findOne({ discordId: user.id });
         section = sectionUpdate.section;
-
+        console.log(section);
+        console.log(text);
         let description = `Your goal for now is section ${text}. Learn at your own pace!\n\n`;
         if (text === 0) {
           description += `*You haven't specified a goal yet. You might wanna use /goals to add one*`;
