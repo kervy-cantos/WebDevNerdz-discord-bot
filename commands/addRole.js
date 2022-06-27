@@ -24,7 +24,7 @@ module.exports = {
   callback: async ({ interaction, member }) => {
     const user = interaction.options.getUser("user");
     const role = interaction.options.getRole("role");
-    member?.roles.add(role);
+    user?.roles.add(role);
     return {
       custom: true,
       content: `${user}, I added you the ${role} role`,
