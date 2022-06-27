@@ -11,19 +11,18 @@ module.exports = {
   guildOnly: true,
   testOnly: true,
 
-  callback: async ({ text, member, channel, interaction }) => {
+  callback: async ({ text, user, channel, interaction }) => {
     if (channel.id === "988254819405930536") {
       try {
         const yourGoal = await users.findOneAndUpdate({
-          discordId: member.id,
+          discordId: user.id,
           goal: text,
           new: true,
         });
-        const sectionUpdate = await users.findOne({ discordId: member.id });
-        let section = sectionUpdate.section;
-        console.log(sectionUpdate);
+        let section = yourGoal.section;
+        console.log(yourGoal);
         console.log(text);
-        console.log(member);
+        console.log(section);
         let description = `Your goal for now is section ${text}. Learn at your own pace!\n\n`;
         if (text === 0) {
           description += `*You haven't specified a goal yet. You might wanna use /goals to add one*`;
