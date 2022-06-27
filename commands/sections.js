@@ -98,7 +98,7 @@ module.exports = {
           member.roles.add(newRole);
           console.log("added");
         } else if (checkRole) {
-          member.roles.remove(newRole.id);
+          member.roles.remove(newRole);
           console.log("removed");
         }
         currentTime = currentTime.toString();
