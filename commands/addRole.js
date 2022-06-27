@@ -24,8 +24,10 @@ module.exports = {
   callback: async ({ interaction, guild }) => {
     const user = interaction.options.getUser("user");
     const role = interaction.options.getRole("role");
-    const member = guild.members.fetch(user.id);
-    member.roles.add("role");
+    const member = await guild.members.fetch(user);
+    member.roles.add(role);
+    console.log(member);
+
     return {
       custom: true,
       content: `<@${member}>, I added you the ${role} role`,
