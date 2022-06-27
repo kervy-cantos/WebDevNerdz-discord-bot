@@ -31,7 +31,7 @@ module.exports = {
       interaction.reply("This command does not work on the server owner");
     } else {
       if (!checkRole) {
-        member.roles.add(newRole);
+        member.roles.add(newRole.id);
         interaction.reply("Role Added");
       } else {
         interaction.reply("User already had this role");
