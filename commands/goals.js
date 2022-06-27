@@ -23,6 +23,7 @@ module.exports = {
         section = sectionUpdate.section;
         console.log(sectionUpdate);
         console.log(text);
+        console.log(member.id);
         let description = `Your goal for now is section ${text}. Learn at your own pace!\n\n`;
         if (text === 0) {
           description += `*You haven't specified a goal yet. You might wanna use /goals to add one*`;
