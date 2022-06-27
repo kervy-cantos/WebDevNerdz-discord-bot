@@ -92,10 +92,14 @@ module.exports = {
         } else {
           newRole = "988253318734307328";
         }
-
+        console.log(newRole);
         const checkRole = member.roles.cache.has(newRole.id);
-        if (!member.manageable && !checkRole) {
+        if (member.manageable && !checkRole) {
           member.roles.add(newRole.id);
+          console.log("added");
+        } else if (checkRole) {
+          member.roles.remove(newRole.id);
+          console.log("removed");
         }
         currentTime = currentTime.toString();
         let description = `***You are currently at section ${sectionNum}***\n\n`;
