@@ -27,11 +27,15 @@ module.exports = {
     const newRole = interaction.options.getRole("role");
     const member = await guild.members.fetch(user);
     const hey = member.roles.cache.has(newRole.id);
-    if (!hey) {
-      member.roles.add(newRole);
-      interaction.reply("Role Added");
+    if (!member.manageable) {
+      interaction.reply("This command does not work on the server owner");
     } else {
-      interaction.reply("User already had this role");
+      if (!hey) {
+        member.roles.add(newRole);
+        interaction.reply("Role Added");
+      } else {
+        interaction.reply("User already had this role");
+      }
     }
   },
 };
