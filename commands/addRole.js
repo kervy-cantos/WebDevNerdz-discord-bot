@@ -24,7 +24,7 @@ module.exports = {
   callback: async ({ interaction, guild }) => {
     const user = interaction.options.getUser("user");
     const role = interaction.options.getRole("role");
-    const member = guild.members.fetch("user");
+    const member = guild.get_member(user.id);
     member.roles.add("role");
     return {
       custom: true,
