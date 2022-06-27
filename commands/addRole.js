@@ -31,7 +31,7 @@ module.exports = {
       member.roles.add(newRole);
       interaction.reply("Role Added");
     } else {
-      interaction.reply("Role Added.");
+      interaction.reply("User already had this role");
     }
   },
 };
