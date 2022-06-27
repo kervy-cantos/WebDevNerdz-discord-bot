@@ -82,24 +82,23 @@ module.exports = {
         }
         const sectionUpdate = await users.findOne({ discordId: user.id });
         let sectionRole = sectionUpdate.section;
-        let newRole;
+        let newRole, newRole2, newRole3;
         goal = sectionUpdate.goal;
         let currentTime = new Date();
-        if (sectionRole <= 13) {
-          newRole = "983079086589112372";
-        } else if (sectionRole > 13 && sectionRole <= 38) {
-          newRole = "983079178947686420";
-        } else {
-          newRole = "988253318734307328";
-        }
-        console.log(newRole);
-        const checkRole = member.roles.cache.has(newRole);
-        if (member.manageable && !checkRole) {
-          member.roles.add(newRole);
-          console.log("added");
-        } else if (checkRole) {
-          member.roles.remove(newRole);
-          console.log("removed");
+        if (member.manageable) {
+          if (sectionRole <= 13) {
+            member.roles.add("983079086589112372");
+            member.roles.remove("983079178947686420");
+            member.roles.remove("988253318734307328");
+          } else if (sectionRole > 13 && sectionRole <= 38) {
+            member.roles.add("983079178947686420");
+            member.roles.remove("983079086589112372");
+            member.roles.remove("988253318734307328");
+          } else {
+            member.roles.add("988253318734307328");
+            member.roles.remove("983079086589112372");
+            member.roles.remove("983079178947686420");
+          }
         }
         currentTime = currentTime.toString();
         let description = `***You are currently at section ${sectionNum}***\n\n`;
