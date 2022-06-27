@@ -95,7 +95,7 @@ module.exports = {
         console.log(newRole);
         const checkRole = member.roles.cache.has(newRole.id);
         if (member.manageable && !checkRole) {
-          member.roles.add(newRole.id);
+          member.roles.add(newRole);
           console.log("added");
         } else if (checkRole) {
           member.roles.remove(newRole.id);
