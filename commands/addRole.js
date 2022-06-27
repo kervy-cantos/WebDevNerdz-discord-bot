@@ -26,11 +26,11 @@ module.exports = {
     const user = interaction.options.getUser("user");
     const newRole = interaction.options.getRole("role");
     const member = await guild.members.fetch(user);
-    const hey = member.roles.cache.has(newRole.id);
+    const checkRole = member.roles.cache.has(newRole.id);
     if (!member.manageable) {
       interaction.reply("This command does not work on the server owner");
     } else {
-      if (!hey) {
+      if (!checkRole) {
         member.roles.add(newRole);
         interaction.reply("Role Added");
       } else {
