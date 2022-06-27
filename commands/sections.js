@@ -95,7 +95,7 @@ module.exports = {
 
         const checkRole = member.roles.cache.has(newRole.id);
         if (!member.manageable && !checkRole) {
-          member.roles.add(newRole);
+          member.roles.add(newRole.id);
         }
         currentTime = currentTime.toString();
         let description = `***You are currently at section ${sectionNum}***\n\n`;
