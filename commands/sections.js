@@ -41,7 +41,7 @@ module.exports = {
   error: ({ error, message }) => {
     console.log(error);
   },
-  callback: async ({ interaction, channel, user }) => {
+  callback: async ({ interaction, channel, user, guild }) => {
     const subCommand = interaction.options.getSubcommand();
     const sectionNum = interaction.options.getNumber("section_num");
     const userid = user.id;
