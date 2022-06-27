@@ -41,8 +41,8 @@ module.exports = {
         }
         const embed = new MessageEmbed()
           .setDescription(description)
-          .setTitle(`Hi ${member.username}!`)
-          .setThumbnail(interaction.member.displayAvatarURL())
+          .setTitle(`Hi ${user.username}!`)
+          .setThumbnail(interaction.user.displayAvatarURL())
           .setColor(0xf7d716);
         return {
           custom: true,
