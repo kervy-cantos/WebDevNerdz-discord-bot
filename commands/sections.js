@@ -48,7 +48,10 @@ module.exports = {
     const memberName = interaction.user.username;
     const avatar = interaction.user;
     const member = await guild.members.fetch(userid);
-    if (channel.id === "983764922229981214") {
+    if (
+      channel.id === "983764922229981214" ||
+      channel.id === "990940079923023905"
+    ) {
       if (subCommand === "save") {
         const search = await users.findOne({ discordId: userid });
         if (!search || search.length === 0) {
