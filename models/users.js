@@ -14,7 +14,8 @@ const userSchema = new Schema({
   goal: {
     type: Number,
     default: 60,
-  },
+  },  
+  timeZone: String
 });
 
 module.exports = mongoose.model("Users", userSchema);

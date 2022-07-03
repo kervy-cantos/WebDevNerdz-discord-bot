@@ -99,6 +99,7 @@ module.exports = {
             member.roles.remove("983079086589112372");
             member.roles.remove("983079178947686420");
           }
+          member.setNickname(`${memberName} | Section ${sectionNum} | `);
         }
         currentTime = currentTime.toString();
         let description = `***You are currently at section ${sectionNum}***\n\n`;
