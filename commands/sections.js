@@ -102,9 +102,9 @@ module.exports = {
             member.roles.remove("983079086589112372");
             member.roles.remove("983079178947686420");
           }
-          console.log(member.nickname);
+
           let timeZ = member.nickname.split("|").pop();
-          console.log(timeZ);
+
           member.setNickname(
             `${memberName} | Section ${sectionNum} | ${timeZ} `
           );
