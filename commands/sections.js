@@ -103,7 +103,10 @@ module.exports = {
             member.roles.remove("983079178947686420");
           }
           console.log(member.nickname);
-          member.setNickname(`${memberName} | Section ${sectionNum} | `);
+          let timeZ = member.nickname.split("|").pop();
+          member.setNickname(
+            `${memberName} | Section ${sectionNum} | ${timeZ}`
+          );
         }
         currentTime = currentTime.toString();
         let description = `***You are currently at section ${sectionNum}***\n\n`;
