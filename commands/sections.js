@@ -104,8 +104,9 @@ module.exports = {
           }
           console.log(member.nickname);
           let timeZ = member.nickname.split("|").pop();
+          console.log(timeZ);
           member.setNickname(
-            `${memberName} | Section ${sectionNum} | ${timeZ}`
+            `${memberName} | Section ${sectionNum} | ${timeZ} `
           );
         }
         currentTime = currentTime.toString();
