@@ -105,7 +105,7 @@ module.exports = {
 
           let timeZ = member.nickname.split("|").pop();
 
-         await member.setNickname(
+         member.setNickname(
             `${memberName} | Section ${sectionNum} | ${timeZ} `
           );
         }
