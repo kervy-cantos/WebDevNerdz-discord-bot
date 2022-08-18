@@ -1,38 +1,38 @@
-const mongoose = require("mongoose");
-const users = require("../models/users");
-const { MessageEmbed } = require("discord.js");
+const mongoose = require('mongoose');
+const users = require('../models/users');
+const { MessageEmbed } = require('discord.js');
 
 module.exports = {
   description: `Saves and Displays a user's current section in the course`,
-  category: "Section",
-  slash: "both",
+  category: 'Section',
+  slash: 'both',
   testOnly: true,
   guildOnly: true,
 
   options: [
     {
-      type: "SUB_COMMAND",
-      name: "save",
+      type: 'SUB_COMMAND',
+      name: 'save',
       description: "Save a user's progress(Only accepts numbers)",
       maxArgs: 1,
       options: [
         {
-          name: "section_num",
-          type: "NUMBER",
-          description: "Your current section",
+          name: 'section_num',
+          type: 'NUMBER',
+          description: 'Your current section',
           required: true,
         },
       ],
     },
     {
-      type: "SUB_COMMAND",
-      name: "show",
-      description: "Shows your section progress in the course",
+      type: 'SUB_COMMAND',
+      name: 'show',
+      description: 'Shows your section progress in the course',
       maxArgs: 0,
     },
     {
-      type: "SUB_COMMAND",
-      name: "showall",
+      type: 'SUB_COMMAND',
+      name: 'showall',
       description: "Shows everyone's progress",
       maxArgs: 0,
     },
@@ -43,16 +43,16 @@ module.exports = {
   },
   callback: async ({ interaction, channel, user, guild }) => {
     const subCommand = interaction.options.getSubcommand();
-    const sectionNum = interaction.options.getNumber("section_num");
+    const sectionNum = interaction.options.getNumber('section_num');
     const userid = user.id;
     const memberName = interaction.user.username;
     const avatar = interaction.user;
     const member = await guild.members.fetch(userid);
     if (
-      channel.id === "983764922229981214" ||
-      channel.id === "990940079923023905"
+      channel.id === '983764922229981214' ||
+      channel.id === '990940079923023905'
     ) {
-      if (subCommand === "save") {
+      if (subCommand === 'save') {
         const search = await users.findOne({ discordId: userid });
         if (!search || search.length === 0) {
           try {
@@ -63,7 +63,7 @@ module.exports = {
               lastUpdate: Date.now(),
               goal: 60,
             });
-            console.log("created");
+            console.log('created');
           } catch (error) {
             console.log(error);
           }
@@ -78,37 +78,43 @@ module.exports = {
             await users.findOneAndUpdate(filterId, update, {
               new: true,
             });
-            console.log("updated");
+            console.log('updated');
           } catch (error) {
             console.log(error);
           }
         }
-        const sectionUpdate = await users.findOne({ discordId: user.id });
+        const sectionUpdate = await users.findOne({
+          discordId: user.id,
+        });
         let sectionRole = sectionUpdate.section;
+        const day = 86400000;
+        const timeInMill = sectionUpdate.lastUpdate;
+        const lastUp = timeInMill.getTime();
         let newRole, newRole2, newRole3;
         goal = sectionUpdate.goal;
         let currentTime = new Date();
         if (member.manageable) {
           if (sectionRole <= 13) {
-            member.roles.add("983079086589112372");
-            member.roles.remove("983079178947686420");
-            member.roles.remove("988253318734307328");
+            member.roles.add('983079086589112372');
+            member.roles.remove('983079178947686420');
+            member.roles.remove('988253318734307328');
           } else if (sectionRole > 13 && sectionRole <= 38) {
-            member.roles.add("983079178947686420");
-            member.roles.remove("983079086589112372");
-            member.roles.remove("988253318734307328");
+            member.roles.add('983079178947686420');
+            member.roles.remove('983079086589112372');
+            member.roles.remove('988253318734307328');
           } else {
-            member.roles.add("988253318734307328");
-            member.roles.remove("983079086589112372");
-            member.roles.remove("983079178947686420");
+            member.roles.add('988253318734307328');
+            member.roles.remove('983079086589112372');
+            member.roles.remove('983079178947686420');
           }
-
-          let timeZ = member.nickname.split("|").pop();
-
-         member.setNickname(
-            `${memberName} | Section ${sectionNum} |${timeZ} `
+          console.log(Date.now());
+          console.log(lastUp);
+          let timeZ = member.nickname.split('|').pop();
+          member.setNickname(
+            `${memberName}|SEC ${sectionNum}|${timeZ} `
           );
         }
+
         currentTime = currentTime.toString();
         let description = `***You are currently at section ${sectionNum}***\n\n`;
 
@@ -141,7 +147,7 @@ module.exports = {
             text: `***Last Updated***: ${currentTime}`,
           });
         return embed;
-      } else if (subCommand === "show") {
+      } else if (subCommand === 'show') {
         const progress = await users.findOne({ discordId: userid });
         if (!progress) {
           return {
@@ -158,7 +164,7 @@ module.exports = {
               .setThumbnail(avatar.displayAvatarURL())
 
               .setFooter({
-                text: "***Last Updated***: " + timeString,
+                text: '***Last Updated***: ' + timeString,
               });
             return {
               custom: true,
@@ -172,11 +178,13 @@ module.exports = {
             };
           }
         }
-      } else if (subCommand === "showall") {
-        let progress = await users.find().sort({ section: "desc" });
+      } else if (subCommand === 'showall') {
+        let progress = await users.find().sort({ section: 'desc' });
         let description = `Everyone's Current Progress\n\n`;
         for (const prog of progress) {
-          let timeString = prog.lastUpdate.toTimeString().slice(0, 18);
+          let timeString = prog.lastUpdate
+            .toTimeString()
+            .slice(0, 18);
           description += `**Name:** **${prog.discordName}**\n`;
           description += `**Section:** ${prog.section}\n`;
           description += `**Last Update:** ${timeString}\n\n`;
@@ -191,7 +199,7 @@ module.exports = {
       return {
         custom: true,
         ephemeral: true,
-        content: "Please use this command on #sections",
+        content: 'Please use this command on #sections',
       };
     }
   },
